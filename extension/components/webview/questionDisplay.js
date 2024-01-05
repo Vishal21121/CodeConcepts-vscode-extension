@@ -1,13 +1,14 @@
 const vscode = require('vscode');
 
-function getWebviewContent(uri) {
+function getWebviewContent(uri, jsSrc) {
     return `<!DOCTYPE html>
     <html lang="en">
     
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./components//webview/questionDisplayStyle.css">
+        <link rel="stylesheet" href=${uri}>
+        <script defer src=${jsSrc}></script>
         <title>Document</title>
     </head>
     
@@ -51,7 +52,9 @@ function displayWebview(context, lang) {
     );
     const cssPath = vscode.Uri.joinPath(context.extensionUri, 'components/webview/questionDisplayStyle.css')
     const cssSrc = panel.webview.asWebviewUri(cssPath);
-    panel.webview.html = getWebviewContent(cssSrc);
+    const jsPath = vscode.Uri.joinPath(context.extensionUri, 'components/webview/questionLogic.js')
+    const jsSrc = panel.webview.asWebviewUri(jsPath);
+    panel.webview.html = getWebviewContent(cssSrc, jsSrc);
 
 }
 
