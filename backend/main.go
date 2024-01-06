@@ -6,6 +6,7 @@ import (
 
 	"github.com/Vishal21121/CodeConcepts-vscode-extension/db"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -20,6 +21,7 @@ func main() {
 	var client *mongo.Client = db.Init()
 	questionController := client.Database("extensionDatabase").Collection("questions")
 
+	app.Use(cors.New())
 	app.Get("/questions", func(c *fiber.Ctx) error {
 
 		// getting all the query parameters
@@ -57,7 +59,7 @@ func main() {
 			"statusCode": 200,
 			"data": fiber.Map{
 				"status": "success",
-				"value":  results,
+				"value":  results[0],
 			},
 		})
 	})
