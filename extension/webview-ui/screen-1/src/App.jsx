@@ -37,18 +37,6 @@ function App() {
       console.log(error.message)
     }
   }
-
-  const title = 'Question'
-  const data = `What is the output of below code 
-  function foo() {
-    let x = (y = 0);
-    x++;
-    y++;
-    return x;
-  }
-  
-  console.log(foo(), typeof x, typeof y);`
-
   useEffect(() => {
     fetchContent()
   }, [])
@@ -61,16 +49,23 @@ function App() {
         questionData !== null ? (
           <div>
             <QuestionTitle content={questionData.data.value.question} questionType={questionData.data.value.questionType} language={questionData.data.value.language} />
-            <VSCodeRadioGroup orientation='vertical' ref={optionRef}>
-              {
-                questionData.data.value.options.map((el) => {
-                  return <VSCodeRadio value={el}>{el}</VSCodeRadio>
-                })
-              }
-            </VSCodeRadioGroup>
-            <VSCodeButton appearance='primary' className='w-fit' onClick={handleClick}>Submit</VSCodeButton>
             {
-              isExplosion && (
+              questionData.data.value.questionType !== "mcq" && (
+                <div>
+                  <VSCodeRadioGroup orientation='vertical' ref={optionRef}>
+                    {
+                      questionData.data.value.options.map((el) => {
+                        return <VSCodeRadio value={el}>{el}</VSCodeRadio>
+                      })
+                    }
+                  </VSCodeRadioGroup>
+                  <VSCodeButton appearance='primary' className='w-fit' onClick={handleClick}>Submit</VSCodeButton>
+                </div>
+              )
+            }
+
+            {
+              questionData.data.value.questionType !== "mcq" && isExplosion && (
                 <div className='flex mt-2'>
                   <Confetti
                     width={width || 300}
