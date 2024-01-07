@@ -1,19 +1,15 @@
-import { VSCodeButton, VSCodeRadio, VSCodeRadioGroup, VSCodeTextField } from '@vscode/webview-ui-toolkit/react';
+
 import './App.css'
-import QuestionTitle from './components/QuestionTitle.jsx'
-import Confetti from 'react-confetti'
-import { useWindowSize } from 'react-use';
 import { useEffect, useRef, useState } from 'react';
+import MCQTemplate from './components/MCQ/MCQTemplate.jsx';
 
 function App() {
-  const { width, height } = useWindowSize()
-  const optionRef = useRef(null)
   const [questionData, setQuestionData] = useState(null)
   const [isExplosion, setIsExplosion] = useState(false)
   const [isCorrect, setIsCorrect] = useState(null)
 
-  const handleClick = () => {
-    if (optionRef.current.value == questionData.data.value.answer) {
+  const handleClick = (value) => {
+    if (value == questionData.data.value.answer) {
       setIsExplosion(true)
       setIsCorrect(true)
       setTimeout(() => {
@@ -43,48 +39,11 @@ function App() {
 
 
   return (
-    <div className='overflow-hidden flex flex-col'>
-      <VSCodeTextField value={title} readOnly className='text-2xl' />
+    <>
       {
-        questionData !== null ? (
-          <div>
-            <QuestionTitle content={questionData.data.value.question} questionType={questionData.data.value.questionType} language={questionData.data.value.language} />
-            {
-              questionData.data.value.questionType !== "mcq" && (
-                <div>
-                  <VSCodeRadioGroup orientation='vertical' ref={optionRef}>
-                    {
-                      questionData.data.value.options.map((el) => {
-                        return <VSCodeRadio value={el}>{el}</VSCodeRadio>
-                      })
-                    }
-                  </VSCodeRadioGroup>
-                  <VSCodeButton appearance='primary' className='w-fit' onClick={handleClick}>Submit</VSCodeButton>
-                </div>
-              )
-            }
-
-            {
-              questionData.data.value.questionType !== "mcq" && isExplosion && (
-                <div className='flex mt-2'>
-                  <Confetti
-                    width={width || 300}
-                    height={height || 300}
-                    gravity={0.3}
-                    pieces={300}
-                  />
-                  <div className="bg-green-500 text-white w-full p-2 rounded font-semibold text-base">Congrats for the correct answer</div>
-                </div>
-              )
-
-            }
-            {
-              isCorrect === false && <div className="bg-red-500 text-white w-full p-2 rounded font-semibold text-base mt-2">Bhai thoda padh le</div>
-            }
-          </div>
-        ) : ""
+        questionData && questionData.data.value.questionType === "mcq" ? (<MCQTemplate questionData={questionData} isExplosion={isExplosion} isCorrect={isCorrect} handleClick={handleClick} />) : ""
       }
-    </div>
+    </>
   )
 }
 
