@@ -14,7 +14,28 @@
   ],
   "main": "./extension.js",
   "contributes": {
-    "commands": []
+    "commands": [],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "concept-reviser",
+          "title": "Concept Reviser",
+          "icon": "assets/crosshair.svg"
+        }
+      ]
+    },
+    "views": {
+      "concept-reviser": [
+        {
+          "id": "points",
+          "name": "Points"
+        },
+        {
+          "id": "Language",
+          "name": "Language"
+        }
+      ]
+    }
   },
   "scripts": {
     "lint": "eslint .",
