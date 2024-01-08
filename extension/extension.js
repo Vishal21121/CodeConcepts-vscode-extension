@@ -14,9 +14,13 @@ function activate(context) {
 
 	//* we can use the below code to save some key value pair
 	let availableLanguages = ['JavaScript', 'TypeScript', 'Python', 'Java', 'Php', 'C++', 'go'];
-	let choosenLanguages = ['JavaScript', 'TypeScript', 'Python'];
+	let choosenLanguages = [];
+	if (!context.globalState.get('choosenLanguages')) {
+		context.globalState.update('choosenLanguages', choosenLanguages);
+	} else {
+		context.globalState.update('choosenLanguages', context.globalState.get('choosenLanguages'));
+	}
 	context.globalState.update('availableLanguages', availableLanguages);
-	context.globalState.update('choosenLanguages', choosenLanguages);
 	let languages = context.globalState.get('choosenLanguages');
 
 	let provider = new ChoosenLanguageProvider(languages);
