@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const { displayWebview } = require('./components/webview/questionDisplay')
+const ChoosenLanguageProvider = require('./util/AvailableLanguageProvider.js');
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -11,8 +12,16 @@ const { displayWebview } = require('./components/webview/questionDisplay')
  */
 function activate(context) {
 
+	// console.log(AvailableLanguagesProvider)
+
 	//* we can use the below code to save some key value pair 
-	// context.globalState.update("language", "JavaScript");
+	let definedlanguages = ['JavaScript', 'TypeScript', 'Python'];
+	context.globalState.update('availableLanguages', definedlanguages);
+	let languages = context.globalState.get('availableLanguages');
+
+	let provider = new ChoosenLanguageProvider(languages);
+	console.log(provider)
+	vscode.window.registerTreeDataProvider('choosenLanguage', provider);
 
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)

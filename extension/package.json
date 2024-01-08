@@ -27,12 +27,12 @@
     "views": {
       "concept-reviser": [
         {
-          "id": "points",
-          "name": "Points"
+          "id": "availableLanguages",
+          "name": "Available Languages"
         },
         {
-          "id": "Language",
-          "name": "Language"
+          "id": "choosenLanguage",
+          "name": "Choosen Language"
         }
       ]
     }
