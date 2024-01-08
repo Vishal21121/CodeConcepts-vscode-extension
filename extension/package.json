@@ -14,7 +14,12 @@
   ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [],
+    "commands": [
+      {
+        "command": "vscodeextension.deleteLang",
+        "title": "Delete"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
@@ -33,6 +38,14 @@
         {
           "id": "choosenLanguage",
           "name": "Choosen Language"
+        }
+      ]
+    },
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "vscodeextension.deleteLang",
+          "group": "inline"
         }
       ]
     }

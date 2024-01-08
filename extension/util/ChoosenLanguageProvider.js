@@ -1,6 +1,10 @@
+const vscode = require('vscode');
+
 class ChoosenLanguageProvider {
     constructor(languages) {
         this.languages = languages;
+        this._onDidChangeTreeData = new vscode.EventEmitter();
+        this.onDidChangeTreeData = this._onDidChangeTreeData.event;
     }
 
     getTreeItem(element) {
@@ -13,6 +17,10 @@ class ChoosenLanguageProvider {
         } else {
             return Promise.resolve(this.languages.map(lang => new Language(lang)));
         }
+    }
+
+    refresh() {
+        this._onDidChangeTreeData.fire();
     }
 }
 
