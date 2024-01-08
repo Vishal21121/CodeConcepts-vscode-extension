@@ -18,19 +18,23 @@
       {
         "command": "vscodeextension.deleteLang",
         "title": "Delete"
+      },
+      {
+        "command": "vscodeextension.addLang",
+        "title": "Add"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "concept-reviser",
+          "id": "conceptReviser",
           "title": "Concept Reviser",
           "icon": "assets/crosshair.svg"
         }
       ]
     },
     "views": {
-      "concept-reviser": [
+      "conceptReviser": [
         {
           "id": "availableLanguages",
           "name": "Available Languages"
@@ -45,6 +49,10 @@
       "view/item/context": [
         {
           "command": "vscodeextension.deleteLang",
+          "group": "inline"
+        },
+        {
+          "command": "vscodeextension.addLang",
           "group": "inline"
         }
       ]

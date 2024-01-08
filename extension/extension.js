@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const { displayWebview } = require('./components/webview/questionDisplay')
-const ChoosenLanguageProvider = require('./util/ChoosenLanguageProvider');
+const { ChoosenLanguageProvider, AvailableLanguageProvider } = require('./util/languageProvider');
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -23,20 +23,30 @@ function activate(context) {
 	context.globalState.update('availableLanguages', availableLanguages);
 	let languages = context.globalState.get('choosenLanguages');
 
-	let provider = new ChoosenLanguageProvider(languages);
-	console.log(provider)
-	vscode.window.registerTreeDataProvider('choosenLanguage', provider);
+	let choosenLanguageProvider = new ChoosenLanguageProvider(languages);
+	vscode.window.registerTreeDataProvider('choosenLanguage', choosenLanguageProvider);
+
+	let availableLanguageProvider = new AvailableLanguageProvider(availableLanguages);
+	vscode.window.registerTreeDataProvider('availableLanguages', availableLanguageProvider);
 
 
 	// registering the deleteCommand
 	const commandHandler = ({ label: value }) => {
-		provider.languages = context.globalState.get('choosenLanguages').filter(lang => lang !== value);
-		context.globalState.update('choosenLanguages', provider.languages);
-		provider.refresh()
-		console.log(provider.languages)
+		choosenLanguageProvider.languages = context.globalState.get('choosenLanguages').filter(lang => lang !== value);
+		context.globalState.update('choosenLanguages', choosenLanguageProvider.languages);
+		choosenLanguageProvider.refresh()
 	};
 	const command = 'vscodeextension.deleteLang';
 	context.subscriptions.push(vscode.commands.registerCommand(command, commandHandler))
+
+	// registering the addCommand for adding languages to choosenLanguages
+	const addCommandHandler = ({ label: value }) => {
+		choosenLanguageProvider.languages = [...context.globalState.get('choosenLanguages'), value];
+		context.globalState.update('choosenLanguages', choosenLanguageProvider.languages);
+		choosenLanguageProvider.refresh()
+	}
+	const addCommand = 'vscodeextension.addLang';
+	context.subscriptions.push(vscode.commands.registerCommand(addCommand, addCommandHandler))
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated

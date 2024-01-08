@@ -30,4 +30,23 @@ class Language {
     }
 }
 
-module.exports = ChoosenLanguageProvider;
+class AvailableLanguageProvider {
+    constructor(languages) {
+        this.languages = languages;
+    }
+
+    getTreeItem(element) {
+        return element;
+    }
+
+    getChildren(element) {
+        if (element) {
+            return Promise.resolve([]);
+        } else {
+            return Promise.resolve(this.languages.map(lang => new Language(lang)));
+        }
+    }
+
+}
+
+module.exports = { ChoosenLanguageProvider, AvailableLanguageProvider };
