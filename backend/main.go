@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/Vishal21121/CodeConcepts-vscode-extension/db"
 	"github.com/gofiber/fiber/v2"
@@ -14,9 +15,12 @@ import (
 
 func main() {
 	app := fiber.New()
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	fmt.Println(os.Getenv("ENV"))
+	if os.Getenv("ENV") != "production" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
 	var client *mongo.Client = db.Init()
 	questionController := client.Database("extensionDatabase").Collection("questions")
