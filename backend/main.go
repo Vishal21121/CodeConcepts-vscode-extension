@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/Vishal21121/CodeConcepts-vscode-extension/db"
 	"github.com/gofiber/fiber/v2"
@@ -31,7 +32,7 @@ func main() {
 		// getting all the query parameters
 		queries := c.Queries()
 		language := queries["language"]
-
+		fmt.Println(language)
 		if language == "" {
 			c.SendStatus(400)
 			return c.JSON(fiber.Map{
@@ -42,6 +43,8 @@ func main() {
 				},
 			})
 		}
+
+		language = strings.ToLower(language)
 
 		// filter with language
 		filterWithLanguage := bson.D{

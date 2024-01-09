@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MCQTemplate from './components/MCQ/MCQTemplate.jsx';
 import ConceptTemplate from './components/ConceptQuestion/ConceptTemplate.jsx';
 
@@ -7,6 +7,7 @@ function App() {
   const [questionData, setQuestionData] = useState(null)
   const [isExplosion, setIsExplosion] = useState(false)
   const [isCorrect, setIsCorrect] = useState(null)
+  const [language, setLanguage] = useState("")
 
   const handleClick = (value) => {
     if (value == questionData.data.value.answer) {
@@ -23,9 +24,10 @@ function App() {
     }
   }
 
-  const fetchContent = async () => {
+  const fetchContent = async (language) => {
+    console.log("called", language)
     try {
-      const response = await fetch('http://localhost:3000/questions?language=javascript')
+      const response = await fetch(`http://localhost:3000/questions?language=${language.lang}`)
       const data = await response.json()
       console.log(data.data.value)
       setQuestionData(data)
@@ -34,7 +36,11 @@ function App() {
     }
   }
   useEffect(() => {
-    fetchContent()
+    window.addEventListener("message", (e) => {
+      console.log(e.data)
+      setLanguage(e.data)
+      fetchContent(e.data)
+    })
   }, [])
 
 
