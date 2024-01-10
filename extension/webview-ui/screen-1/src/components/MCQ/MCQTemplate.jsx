@@ -31,13 +31,13 @@ const MCQTemplate = ({ questionData, isExplosion, isCorrect, handleClick }) => {
                             gravity={0.3}
                             pieces={300}
                         />
-                        <div className="bg-green-500 text-white w-full p-2 rounded font-semibold text-base">Congrats for the correct answer</div>
+                        <div className="bg-green-500 text-white w-full p-2 rounded font-semibold text-base text-center">Congrats for the correct answer</div>
                     </div>
                 )
 
             }
             {
-                isCorrect === false && <div className="bg-red-500 text-white w-full p-2 rounded font-semibold text-base mt-2">Bhai thoda padh le</div>
+                isCorrect === false && <div className="bg-red-500 text-white w-full p-2 rounded font-semibold text-base mt-2 text-center">Bhai thoda padh le</div>
             }
         </div>
     )

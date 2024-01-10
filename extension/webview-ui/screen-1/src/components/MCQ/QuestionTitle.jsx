@@ -9,16 +9,19 @@ const QuestionTitle = ({ content, questionType, language }) => {
         <>
             {
                 questionType === "mcq" ? (
-                    <SyntaxHighlighter
-                        children={String(content).replace(/\n$/, '')}
-                        style={dracula}
-                        language={language}
-                        customStyle={{
-                            padding: "25px",
-                            margin: "0px"
-                        }}
-                        wrapLongLines="true"
-                    />
+                    <div style={{ backgroundColor: 'var(--vscode-editor-background)' }}>
+                        <SyntaxHighlighter
+                            children={String(content).replace(/\n$/, '')}
+                            style={dracula}
+                            language={language}
+                            customStyle={{
+                                padding: "25px",
+                                margin: "0px"
+                            }}
+                            wrapLongLines="true"
+                        />
+                    </div>
+
                 ) : <VSCodeTextArea value={content} resize='false' readOnly rows={10} />
             }
         </>
