@@ -5,8 +5,6 @@ const { displayWebview, getWebviewContent, pathObject } = require('./components/
 const { ChoosenLanguageProvider, AvailableLanguageProvider } = require('./util/languageProvider');
 const selectRandomElement = require('./util/randomLangPicker');
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -16,17 +14,22 @@ function activate(context) {
 	//* we can use the below code to save some key value pair
 	let availableLanguages = ['JavaScript', 'TypeScript', 'Python', 'Java', 'Php', 'C++', 'go'];
 	let choosenLanguages = [];
+
+	// if globalState is empty, then we will set choosenLanguages to empty array
 	if (!context.globalState.get('choosenLanguages')) {
 		context.globalState.update('choosenLanguages', choosenLanguages);
-	} else {
-		context.globalState.update('choosenLanguages', context.globalState.get('choosenLanguages'));
 	}
+	// else {
+	// 	context.globalState.update('choosenLanguages', context.globalState.get('choosenLanguages'));
+	// }
 	context.globalState.update('availableLanguages', availableLanguages);
 	let languages = context.globalState.get('choosenLanguages');
 
+	// creating this for the tree view of choosen languages
 	let choosenLanguageProvider = new ChoosenLanguageProvider(languages);
 	vscode.window.registerTreeDataProvider('choosenLanguage', choosenLanguageProvider);
 
+	// creating this for the tree view of available languages
 	let availableLanguageProvider = new AvailableLanguageProvider(availableLanguages);
 	vscode.window.registerTreeDataProvider('availableLanguages', availableLanguageProvider);
 
@@ -53,6 +56,7 @@ function activate(context) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "vscodeextension" is now active!');
 
+	// picking a random language from the choosenLanguages
 	const pickedLang = selectRandomElement(context.globalState.get('choosenLanguages'));
 	context.globalState.update('pickedLang', pickedLang);
 
@@ -70,7 +74,7 @@ function activate(context) {
 				vscode.window.showInformationMessage("Okay! See you later!");
 			}
 		});
-	}, 10000)
+	}, 20000)
 
 }
 
