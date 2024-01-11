@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"reflect"
 	"strings"
 
 	"github.com/Vishal21121/CodeConcepts-vscode-extension/db"
@@ -33,6 +34,7 @@ func main() {
 		queries := c.Queries()
 		language := queries["language"]
 		fmt.Println(language)
+
 		if language == "" {
 			c.SendStatus(400)
 			return c.JSON(fiber.Map{
@@ -40,6 +42,16 @@ func main() {
 				"data": fiber.Map{
 					"status":  "failure",
 					"message": "language is required",
+				},
+			})
+		}
+		if reflect.TypeOf(language).Kind() != reflect.String {
+			c.SendStatus(400)
+			return c.JSON(fiber.Map{
+				"status": "failure",
+				"data": fiber.Map{
+					"statusCode": 400,
+					"message":    "language should be a string",
 				},
 			})
 		}
@@ -55,12 +67,40 @@ func main() {
 		cursor, err := questionController.Aggregate(c.Context(), mongo.Pipeline{filterWithLanguage, randomElement})
 
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println("Got error while fetching data from database", err)
+			c.SendStatus(500)
+			return c.JSON(fiber.Map{
+				"status": "failure",
+				"data": fiber.Map{
+					"statusCode": 500,
+					"message":    "Internal server error",
+				},
+			})
 		}
 		var results []bson.M
 		if err = cursor.All(c.Context(), &results); err != nil {
-			log.Fatal(err)
+			fmt.Println("Got error while framing the data")
+			c.SendStatus(500)
+			return c.JSON(fiber.Map{
+				"status": "failure",
+				"data": fiber.Map{
+					"statusCode": 500,
+					"message":    "Internal server error",
+				},
+			})
 		}
+
+		if len(results) == 0 {
+			c.SendStatus(404)
+			return c.JSON(fiber.Map{
+				"status": "success",
+				"data": fiber.Map{
+					"statusCode": 404,
+					"value":      []bson.M{},
+				},
+			})
+		}
+
 		c.SendStatus(200)
 		return c.JSON(fiber.Map{
 			"statusCode": 200,
