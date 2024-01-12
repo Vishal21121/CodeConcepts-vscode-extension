@@ -25,7 +25,7 @@ func main() {
 		}
 	}
 	var client *mongo.Client = db.Init()
-	questionController := client.Database("extensionDatabase").Collection("questions")
+	questionController := client.Database(os.Getenv("extensionDatabase")).Collection(os.Getenv("COLLECTION"))
 
 	app.Use(cors.New())
 	app.Get("/questions", func(c *fiber.Ctx) error {
