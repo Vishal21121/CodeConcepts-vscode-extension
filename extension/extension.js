@@ -45,6 +45,7 @@ function activate(context) {
 
 	// registering the addCommand for adding languages to choosenLanguages
 	const addCommandHandler = ({ label: value }) => {
+		if (choosenLanguageProvider.languages.includes(value)) return vscode.window.showInformationMessage("This language is already choosen")
 		choosenLanguageProvider.languages = [...context.globalState.get('choosenLanguages'), value];
 		context.globalState.update('choosenLanguages', choosenLanguageProvider.languages);
 		choosenLanguageProvider.refresh()
