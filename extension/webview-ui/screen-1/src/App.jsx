@@ -25,7 +25,7 @@ function App() {
   const fetchContent = async (language) => {
     console.log("called", language)
     try {
-      const response = await fetch(`http://localhost:3000/questions?language=${language.lang}`)
+      const response = await fetch(`${import.meta.env.VITE_URL}questions?language=${language.lang}`)
       const data = await response.json()
       console.log(data.data.value)
       setQuestionData(data)
