@@ -25,6 +25,7 @@ function displayWebview(context, lang) {
     vscode.ViewColumn.One,
     {
       enableScripts: true,
+      retainContextWhenHidden: true,
     }
   );
   const cssPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-1/dist/assets/index.css')

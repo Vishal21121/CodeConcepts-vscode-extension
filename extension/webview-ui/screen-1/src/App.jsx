@@ -26,7 +26,7 @@ function App() {
   const fetchContent = async (language) => {
     console.log("called", language)
     try {
-      const response = await fetch(`http://localhost:3000/questions?language=${language.lang}`)
+      const response = await fetch(`http://localhost:3000/questions?language=${language}`)
       const data = await response.json()
       console.log(data.data.value)
       setQuestionData(data)
@@ -34,13 +34,18 @@ function App() {
       console.log(error.message)
     }
   }
+
   useEffect(() => {
-    window.addEventListener("message", (e) => {
-      console.log(e.data)
-      setLanguage(e.data)
-      fetchContent(e.data)
-    })
+    fetchContent("javascript")
   }, [])
+
+  // useEffect(() => {
+  //   window.addEventListener("message", (e) => {
+  //     console.log(e.data)
+  //     fetchContent(e.data)
+  //     setLanguage(e.data)
+  //   })
+  // }, [])
 
 
   return (
