@@ -4,7 +4,7 @@ import QuestionTitle from './QuestionTitle.jsx'
 import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use';
 
-const MCQTemplate = ({ questionData, isExplosion, isCorrect, handleClick }) => {
+const MCQTemplate = ({ questionData, isExplosion, isCorrect, handleClick, btnShow }) => {
     const { width, height } = useWindowSize()
     const optionRef = useRef(null)
 
@@ -20,7 +20,9 @@ const MCQTemplate = ({ questionData, isExplosion, isCorrect, handleClick }) => {
                         })
                     }
                 </VSCodeRadioGroup>
-                <VSCodeButton appearance='primary' className='w-fit' onClick={() => handleClick(optionRef.current.value)}>Submit</VSCodeButton>
+                {
+                    btnShow && <VSCodeButton appearance='primary' className='w-fit' onClick={() => handleClick(optionRef.current.value)}>Submit</VSCodeButton>
+                }
             </div>
             {
                 questionData.data.value.questionType === "mcq" && isExplosion && (

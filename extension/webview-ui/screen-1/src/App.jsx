@@ -7,6 +7,7 @@ function App() {
   const [questionData, setQuestionData] = useState(null)
   const [isExplosion, setIsExplosion] = useState(false)
   const [isCorrect, setIsCorrect] = useState(null)
+  const [btnShow, setBtnShow] = useState(true)
   const [language, setLanguage] = useState("")
 
   const handleClick = (value) => {
@@ -15,10 +16,11 @@ function App() {
       setIsCorrect(true)
       setTimeout(() => {
         setIsExplosion(false)
-      }, 5000)
+      }, 3000)
     } else {
       setIsCorrect(false)
     }
+    setBtnShow(false)
   }
 
   const fetchContent = async (language) => {
@@ -44,7 +46,7 @@ function App() {
   return (
     <>
       {
-        questionData && questionData.data.value.questionType === "mcq" ? (<MCQTemplate questionData={questionData} isExplosion={isExplosion} isCorrect={isCorrect} handleClick={handleClick} />) : ""
+        questionData && questionData.data.value.questionType === "mcq" ? (<MCQTemplate questionData={questionData} isExplosion={isExplosion} isCorrect={isCorrect} handleClick={handleClick} btnShow={btnShow} />) : ""
       }
       {
         questionData && questionData.data.value.questionType === "concept" ? (<ConceptTemplate questionData={questionData} />) : ""
