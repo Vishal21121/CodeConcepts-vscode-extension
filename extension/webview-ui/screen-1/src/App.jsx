@@ -18,9 +18,6 @@ function App() {
       }, 5000)
     } else {
       setIsCorrect(false)
-      setTimeout(() => {
-        setIsCorrect(null)
-      }, 3000)
     }
   }
 

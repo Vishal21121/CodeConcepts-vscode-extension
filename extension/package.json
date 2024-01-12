@@ -49,11 +49,13 @@
       "view/item/context": [
         {
           "command": "vscodeextension.deleteLang",
-          "group": "inline"
+          "group": "inline",
+          "when": "view == choosenLanguage"
         },
         {
           "command": "vscodeextension.addLang",
-          "group": "inline"
+          "group": "inline",
+          "when": "view == availableLanguages"
         }
       ]
     }

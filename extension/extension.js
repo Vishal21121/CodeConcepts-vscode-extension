@@ -12,7 +12,7 @@ const selectRandomElement = require('./util/randomLangPicker');
 function activate(context) {
 
 	//* we can use the below code to save some key value pair
-	let availableLanguages = ['JavaScript', 'TypeScript', 'Python', 'Java', 'Php', 'C++', 'go'];
+	let availableLanguages = ['JavaScript', 'TypeScript', 'Python', 'Java', 'Php', 'cpp', 'go'];
 	let choosenLanguages = [];
 
 	// if globalState is empty, then we will set choosenLanguages to empty array
@@ -65,8 +65,8 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	setTimeout(() => {
-		vscode.window.showInformationMessage(`Hey there! Are you ready for a challenge? Let's dive into some ${pickedLang} problems together!`, "Solve Now", "Later").then(async (selection) => {
-			if (selection === "Solve Now") {
+		vscode.window.showInformationMessage(`Hey there! Are you ready for a challenge? Let's dive into some ${pickedLang} concept together!`, "Explore Now", "Later").then(async (selection) => {
+			if (selection === "Explore Now") {
 				const panel = displayWebview(context, pickedLang)
 				panel.webview.postMessage({ lang: pickedLang });
 				console.log("panel", panel)
@@ -74,7 +74,7 @@ function activate(context) {
 				vscode.window.showInformationMessage("Okay! See you later!");
 			}
 		});
-	}, 20000)
+	}, 10000)
 
 }
 

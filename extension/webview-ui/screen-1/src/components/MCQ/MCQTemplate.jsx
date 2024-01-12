@@ -37,7 +37,13 @@ const MCQTemplate = ({ questionData, isExplosion, isCorrect, handleClick }) => {
 
             }
             {
-                isCorrect === false && <div className="bg-red-500 text-white w-full p-2 rounded font-semibold text-base mt-2 text-center">Bhai thoda padh le</div>
+                isCorrect === false && <div className='flex gap-2 flex-col my-2'>
+                    <div className="bg-red-500 text-white w-full p-2 rounded font-semibold text-base mt-2 text-center">Bhai thoda padh le</div>
+                    {
+                        questionData.data.value.explanation ? <div className="bg-gray-500 text-white w-full p-2 rounded text-sm text-left">Explanation: {questionData.data.value.explanation}</div> : <div className="bg-gray-500 text-white w-full p-2 rounded text-sm text-left">Answer: {questionData.data.value.answer}</div>
+                    }
+                </div>
+
             }
         </div>
     )
