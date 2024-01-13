@@ -23,18 +23,15 @@ Hey and welcome to ConceptReviser! ✨
 
 #### Available languages you can choose the questions from:
 
-1. C
-2. Python
-3. Java
-4. Javascript
-5. C++
-6. Shell/Bash
-7. PHP
-8. Go
-9. Rust
-10. SQL
-11. HTML/CSS
-    <br>
+1. Python
+2. Java
+3. Javascript
+4. C++
+5. PHP
+6. Go
+7. Rust
+8. SQL
+   <br>
 
 ### Contributors <hr>
 

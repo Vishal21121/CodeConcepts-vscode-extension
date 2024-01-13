@@ -1,9 +1,9 @@
 {
   "name": "conceptreviser",
   "displayName": "Concept Reviser",
-  "description": "",
+  "description": "Revise programming concepts without much efforts",
   "version": "0.0.1",
-  "publisher": "",
+  "publisher": "Vishal Singh",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -16,10 +16,10 @@
   "pricing": "Free",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Vishal21121/CodeConcepts-vscode-extension"
+    "url": "https://github.com/Vishal21121/Concept-Reviser-vscode-extension"
   },
   "bugs": {
-    "url": "https://github.com/Vishal21121/CodeConcepts-vscode-extension/issues"
+    "url": "https://github.com/Vishal21121/Concept-Reviser-vscode-extension/issues"
   },
   "keywords": [
     "concept",
