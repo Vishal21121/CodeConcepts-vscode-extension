@@ -46,7 +46,9 @@ function App() {
   return (
     <>
       {
-        questionData && questionData.data.value.questionType === "mcq" ? (<MCQTemplate questionData={questionData} isExplosion={isExplosion} isCorrect={isCorrect} handleClick={handleClick} btnShow={btnShow} />) : ""
+        questionData && questionData.data.value.questionType === "mcq" ? (
+          <MCQTemplate questionData={questionData} isExplosion={isExplosion} isCorrect={isCorrect} handleClick={handleClick} btnShow={btnShow} />
+        ) : ""
       }
     </>
   )

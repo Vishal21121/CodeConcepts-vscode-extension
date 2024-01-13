@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
-const { displayWebview, getWebviewContent, pathObject } = require('./components/webview/questionDisplay')
+const { displayWebview } = require('./components/webview/questionDisplay')
 const { ChoosenLanguageProvider, AvailableLanguageProvider } = require('./util/languageProvider');
 const selectRandomElement = require('./util/randomLangPicker');
 
@@ -45,7 +45,7 @@ function activate(context) {
 
 	// registering the addCommand for adding languages to choosenLanguages
 	const addCommandHandler = ({ label: value }) => {
-		if (choosenLanguageProvider.languages.includes(value)) return vscode.window.showInformationMessage("This language is already choosen")
+		if (choosenLanguageProvider.languages.includes(value)) return vscode.window.showErrorMessage("This language is already choosen")
 		choosenLanguageProvider.languages = [...context.globalState.get('choosenLanguages'), value];
 		context.globalState.update('choosenLanguages', choosenLanguageProvider.languages);
 		choosenLanguageProvider.refresh()
@@ -66,10 +66,16 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	setTimeout(() => {
-		vscode.window.showInformationMessage(`Hey there! Are you ready for a challenge? Let's dive into some ${pickedLang} concept together!`, "Explore Now", "Later").then(async (selection) => {
-			if (selection === "Explore Now") {
+		if (context.globalState.get('choosenLanguages').length === 0) {
+			console.log("inside")
+			return vscode.window.showInformationMessage("Hey there! Please choose some languages to get started");
+		}
+		vscode.window.showInformationMessage(`Hey there! Are you ready for a challenge? Let's dive into some ${pickedLang} concept together!`, "Solve Now", "Later").then(async (selection) => {
+			if (selection === "Solve Now") {
 				const panel = displayWebview(context, pickedLang)
-				panel.webview.postMessage({ lang: pickedLang });
+				setTimeout(() => {
+					panel.webview.postMessage({ lang: pickedLang });
+				}, 1000)
 				console.log("panel", panel)
 			} else {
 				vscode.window.showInformationMessage("Okay! See you later!");
