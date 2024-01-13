@@ -74,7 +74,15 @@ function activate(context) {
 			if (selection === "Solve Now") {
 				const panel = displayWebview(context, pickedLang)
 				setTimeout(() => {
-					panel.webview.postMessage({ lang: pickedLang });
+					if (panel.active) {
+						console.log("first")
+						panel.webview.postMessage({ lang: pickedLang });
+					} else {
+						console.log("second")
+						setTimeout(() => {
+							panel.webview.postMessage({ lang: pickedLang });
+						}, 3000)
+					}
 				}, 1000)
 				console.log("panel", panel)
 			} else {
