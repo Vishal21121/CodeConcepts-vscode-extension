@@ -12,7 +12,7 @@ const selectRandomElement = require('./util/randomLangPicker');
 function activate(context) {
 
 	//* we can use the below code to save some key value pair
-	let availableLanguages = ['JavaScript', 'TypeScript', 'Python', 'Java', 'Php', 'cpp', 'go'];
+	let availableLanguages = ['JavaScript', 'Rust', 'Python', 'Java', 'PHP', 'cpp', 'GO', 'SQL'];
 	let choosenLanguages = [];
 
 	// if globalState is empty, then we will set choosenLanguages to empty array
@@ -75,10 +75,8 @@ function activate(context) {
 				const panel = displayWebview(context, pickedLang)
 				setTimeout(() => {
 					if (panel.active) {
-						console.log("first")
 						panel.webview.postMessage({ lang: pickedLang });
 					} else {
-						console.log("second")
 						setTimeout(() => {
 							panel.webview.postMessage({ lang: pickedLang });
 						}, 3000)
