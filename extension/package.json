@@ -3,7 +3,8 @@
   "displayName": "Concept Reviser",
   "description": "Revise programming concepts without much efforts",
   "version": "0.0.1",
-  "publisher": "Vishal Singh",
+  "publisher": "VishalSingh",
+  "icon": "assets/CR.png",
   "engines": {
     "vscode": "^1.85.0"
   },
