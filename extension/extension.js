@@ -53,6 +53,23 @@ function activate(context) {
 	const addCommand = 'vscodeextension.addLang';
 	context.subscriptions.push(vscode.commands.registerCommand(addCommand, addCommandHandler))
 
+	// registering the solve more question command
+	const solveMoreCommandHandler = () => {
+		const pickedLang = selectRandomElement(context.globalState.get('choosenLanguages'));
+		const panel = displayWebview(context, pickedLang)
+		setTimeout(() => {
+			if (panel.active) {
+				panel.webview.postMessage({ lang: pickedLang });
+			} else {
+				setTimeout(() => {
+					panel.webview.postMessage({ lang: pickedLang });
+				}, 3000)
+			}
+		}, 1000)
+	}
+	const solveMoreCommand = 'vscodeextension.solveMore';
+	context.subscriptions.push(vscode.commands.registerCommand(solveMoreCommand, solveMoreCommandHandler))
+
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "vscodeextension" is now active!');

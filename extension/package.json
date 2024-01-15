@@ -45,6 +45,12 @@
         "title": "Add"
       }
     ],
+    "viewsWelcome": [
+      {
+        "view": "moreQuestions",
+        "contents": "You can solve more questions?\n[Solve Now](command:vscodeextension.solveMore)"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
@@ -56,6 +62,10 @@
     },
     "views": {
       "conceptReviser": [
+        {
+          "id": "moreQuestions",
+          "name": "More Questions"
+        },
         {
           "id": "availableLanguages",
           "name": "Available Languages"
