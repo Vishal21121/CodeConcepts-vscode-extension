@@ -2,7 +2,7 @@
   "name": "conceptreviser",
   "displayName": "Concept Reviser",
   "description": "Revise programming concepts without much efforts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "publisher": "VishalSingh",
   "icon": "assets/CR.png",
   "engines": {
@@ -63,16 +63,16 @@
     "views": {
       "conceptReviser": [
         {
-          "id": "moreQuestions",
-          "name": "More Questions"
-        },
-        {
           "id": "availableLanguages",
           "name": "Available Languages"
         },
         {
           "id": "choosenLanguage",
           "name": "Choosen Language"
+        },
+        {
+          "id": "moreQuestions",
+          "name": "More Questions"
         }
       ]
     },
