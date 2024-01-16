@@ -4,6 +4,7 @@ const vscode = require('vscode');
 const { displayWebview } = require('./components/webview/questionDisplay')
 const { ChoosenLanguageProvider, AvailableLanguageProvider } = require('./util/languageProvider');
 const selectRandomElement = require('./util/randomLangPicker');
+const { displayUserSavedQuestionWebview } = require('./components/webview/userSavedQuestionDisplay')
 
 
 /**
@@ -69,6 +70,13 @@ function activate(context) {
 	}
 	const solveMoreCommand = 'vscodeextension.solveMore';
 	context.subscriptions.push(vscode.commands.registerCommand(solveMoreCommand, solveMoreCommandHandler))
+
+	// registering the add questions command
+	const addQuestionsCommandHandler = () => {
+		const panel = displayUserSavedQuestionWebview(context)
+	}
+	const addQuestionsCommand = 'vscodeextension.addQuestions';
+	context.subscriptions.push(vscode.commands.registerCommand(addQuestionsCommand, addQuestionsCommandHandler))
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated

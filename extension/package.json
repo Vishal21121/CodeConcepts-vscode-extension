@@ -49,6 +49,10 @@
       {
         "view": "moreQuestions",
         "contents": "You can solve more questions?\n[Solve Now](command:vscodeextension.solveMore)"
+      },
+      {
+        "view": "userQuestions",
+        "contents": "You can add your own questions?\n[Add Now](command:vscodeextension.addQuestions)\n[View Questions](command:vscodeextension.viewQuestions)"
       }
     ],
     "viewsContainers": {
@@ -73,6 +77,10 @@
         {
           "id": "moreQuestions",
           "name": "More Questions"
+        },
+        {
+          "id": "userQuestions",
+          "name": "Questions"
         }
       ]
     },
