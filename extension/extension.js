@@ -74,6 +74,13 @@ function activate(context) {
 	// registering the add questions command
 	const addQuestionsCommandHandler = () => {
 		const panel = displayUserSavedQuestionWebview(context)
+		if (panel.active) {
+			panel.webview.onDidReceiveMessage((message) => {
+				switch (message.command) {
+					case "save question": console.log(message)
+				}
+			})
+		}
 	}
 	const addQuestionsCommand = 'vscodeextension.addQuestions';
 	context.subscriptions.push(vscode.commands.registerCommand(addQuestionsCommand, addQuestionsCommandHandler))
