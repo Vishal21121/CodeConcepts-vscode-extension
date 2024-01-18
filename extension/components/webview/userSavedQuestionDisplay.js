@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 
 function getWebviewContent(uri, jsSrc) {
-    return `<!doctype html>
+  return `<!doctype html>
   <html lang="en">
     <head>
       <meta charset="UTF-8" />
@@ -17,28 +17,28 @@ function getWebviewContent(uri, jsSrc) {
   `
 }
 
-function displayUserSavedQuestionWebview(context) {
-    console.log("displaying webview")
-    const panel = vscode.window.createWebviewPanel(
-        'savedquestions',
-        `Saved Questions`,
-        vscode.ViewColumn.One,
-        {
-            enableScripts: true,
-            retainContextWhenHidden: true,
-        }
-    );
-    const cssPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-2/dist/assets/index.css')
-    const cssSrc = panel.webview.asWebviewUri(cssPath);
+function displayUserSavedQuestionWebview(context, title) {
+  console.log("displaying webview")
+  const panel = vscode.window.createWebviewPanel(
+    'savedquestions',
+    title,
+    vscode.ViewColumn.One,
+    {
+      enableScripts: true,
+      retainContextWhenHidden: true,
+    }
+  );
+  const cssPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-2/dist/assets/index.css')
+  const cssSrc = panel.webview.asWebviewUri(cssPath);
 
-    const jsPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-2/dist/assets/index.js')
-    const jsSrc = panel.webview.asWebviewUri(jsPath);
-    panel.webview.html = getWebviewContent(cssSrc, jsSrc);
-    return panel
+  const jsPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-2/dist/assets/index.js')
+  const jsSrc = panel.webview.asWebviewUri(jsPath);
+  panel.webview.html = getWebviewContent(cssSrc, jsSrc);
+  return panel
 }
 
 
 
 module.exports = {
-    displayUserSavedQuestionWebview,
+  displayUserSavedQuestionWebview,
 }

@@ -77,7 +77,7 @@ function activate(context) {
 
 	// registering the add questions command
 	const addQuestionsCommandHandler = () => {
-		const panel = displayUserSavedQuestionWebview(context)
+		const panel = displayUserSavedQuestionWebview(context, "Question Form")
 		panel.webview.onDidReceiveMessage((message) => {
 			switch (message.command) {
 				case "loaded":
@@ -87,15 +87,6 @@ function activate(context) {
 					})
 					break
 				case "save question":
-					//* sample data for storing in the json file 
-					// const info = JSON.stringify([{
-					// 	"id": randomUUID(),
-					// 	"question": "What is the output of the following code?",
-					// 	"answer": "Hello World!"
-					// }])
-					// write some json content to read the it for checking JSON.parse and JSON.stringify
-					// writeFile(vscode, context, [])
-
 					// first reading the saved content and then putting the new content in the file
 					if (panel.active) {
 						readFile(vscode, context).then((value) => {
@@ -104,14 +95,11 @@ function activate(context) {
 								message.data.id = randomUUID()
 								const data = [...JSON.parse(value), content]
 								writeFile(vscode, context, data).then(() => {
-									readFile(vscode, context).then((value) => {
-										console.log("value", value)
-									})
+									vscode.window.showInformationMessage("Question saved successfully!")
+									panel.dispose()
 								})
 							}
 						})
-						vscode.window.showInformationMessage("Question saved successfully!")
-						panel.dispose()
 					}
 			}
 		})
@@ -119,24 +107,31 @@ function activate(context) {
 	const addQuestionsCommand = 'vscodeextension.addQuestions';
 	context.subscriptions.push(vscode.commands.registerCommand(addQuestionsCommand, addQuestionsCommandHandler))
 
+
 	const viewQuestionsCommandHandler = () => {
-		const panel = displayUserSavedQuestionWebview(context)
-		panel.webview.onDidReceiveMessage((message) => {
-			switch (message.command) {
-				case "loaded":
-					panel.webview.postMessage({
-						command: "viewMode",
-						data: "questionDisplay"
-					})
-					break;
-				case "getQuestions":
-					readFile(vscode, context).then((value) => {
-						panel.webview.postMessage({
-							command: "getQuestions",
-							data: JSON.parse(value)
-						})
-					})
-					break;
+		readFile(vscode, context).then((value) => {
+			if (JSON.parse(value).length === 0) {
+				return vscode.window.showErrorMessage("You have not saved any questions yet!")
+			} else {
+				const panel = displayUserSavedQuestionWebview(context, "Saved Questions")
+				panel.webview.onDidReceiveMessage((message) => {
+					switch (message.command) {
+						case "loaded":
+							panel.webview.postMessage({
+								command: "viewMode",
+								data: "questionDisplay"
+							})
+							break;
+						case "getQuestions":
+							readFile(vscode, context).then((value) => {
+								panel.webview.postMessage({
+									command: "getQuestions",
+									data: JSON.parse(value)
+								})
+							})
+							break;
+					}
+				})
 			}
 		})
 	}

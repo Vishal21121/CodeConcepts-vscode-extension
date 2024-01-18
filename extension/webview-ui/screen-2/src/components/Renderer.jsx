@@ -7,7 +7,7 @@ const Renderer = ({ content, language }) => {
         <SyntaxHighlighter
             children={String(content).replace(/\n$/, '')}
             style={dracula}
-            language={language}
+            language={language.toLowerCase()}
             customStyle={{
                 padding: "25px",
                 margin: "0px"

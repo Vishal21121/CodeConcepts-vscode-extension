@@ -24,7 +24,7 @@ const QuestionDisplay = ({ vscode }) => {
         <div className='w-full'>
             <div className='flex flex-col gap-2'>
                 {
-                    data && data.map(({ question, answer, id, language }) => {
+                    data.length != 0 && data.map(({ question, answer, id, language }) => {
                         return (
                             <div key={id}>
                                 <Renderer content={`${question}\n${answer}`} language={language} />
