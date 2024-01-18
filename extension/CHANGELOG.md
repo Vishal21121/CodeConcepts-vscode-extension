@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.1] - 2024-01-18
+
+### Fixed
+
+- fixed bug in reading file
+
 ## [1.0.0] - 2024-01-18
 
 ### Added
