@@ -1,10 +1,14 @@
 // The module 'vscode' contains the VS Code extensibility API
+
+const { randomUUID } = require('crypto');
+
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const { displayWebview } = require('./components/webview/questionDisplay')
 const { ChoosenLanguageProvider, AvailableLanguageProvider } = require('./util/languageProvider');
 const selectRandomElement = require('./util/randomLangPicker');
 const { displayUserSavedQuestionWebview } = require('./components/webview/userSavedQuestionDisplay')
+const { readFile, writeFile } = require('./util/storageReadWrite')
 
 
 /**
@@ -74,16 +78,70 @@ function activate(context) {
 	// registering the add questions command
 	const addQuestionsCommandHandler = () => {
 		const panel = displayUserSavedQuestionWebview(context)
-		if (panel.active) {
-			panel.webview.onDidReceiveMessage((message) => {
-				switch (message.command) {
-					case "save question": console.log(message)
-				}
-			})
-		}
+		panel.webview.onDidReceiveMessage((message) => {
+			switch (message.command) {
+				case "loaded":
+					panel.webview.postMessage({
+						command: "viewMode",
+						data: "questionForm"
+					})
+					break
+				case "save question":
+					//* sample data for storing in the json file 
+					// const info = JSON.stringify([{
+					// 	"id": randomUUID(),
+					// 	"question": "What is the output of the following code?",
+					// 	"answer": "Hello World!"
+					// }])
+					// write some json content to read the it for checking JSON.parse and JSON.stringify
+					// writeFile(vscode, context, [])
+
+					// first reading the saved content and then putting the new content in the file
+					if (panel.active) {
+						readFile(vscode, context).then((value) => {
+							const content = message.data
+							if (content) {
+								message.data.id = randomUUID()
+								const data = [...JSON.parse(value), content]
+								writeFile(vscode, context, data).then(() => {
+									readFile(vscode, context).then((value) => {
+										console.log("value", value)
+									})
+								})
+							}
+						})
+						vscode.window.showInformationMessage("Question saved successfully!")
+						panel.dispose()
+					}
+			}
+		})
 	}
 	const addQuestionsCommand = 'vscodeextension.addQuestions';
 	context.subscriptions.push(vscode.commands.registerCommand(addQuestionsCommand, addQuestionsCommandHandler))
+
+	const viewQuestionsCommandHandler = () => {
+		const panel = displayUserSavedQuestionWebview(context)
+		panel.webview.onDidReceiveMessage((message) => {
+			switch (message.command) {
+				case "loaded":
+					panel.webview.postMessage({
+						command: "viewMode",
+						data: "questionDisplay"
+					})
+					break;
+				case "getQuestions":
+					readFile(vscode, context).then((value) => {
+						panel.webview.postMessage({
+							command: "getQuestions",
+							data: JSON.parse(value)
+						})
+					})
+					break;
+			}
+		})
+	}
+	const viewQuestionsCommand = 'vscodeextension.viewQuestions';
+	context.subscriptions.push(vscode.commands.registerCommand(viewQuestionsCommand, viewQuestionsCommandHandler))
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
