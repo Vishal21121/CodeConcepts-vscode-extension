@@ -60,6 +60,8 @@ function activate(context) {
 
 	// registering the solve more question command
 	const solveMoreCommandHandler = () => {
+		// if no languges are choosen then show error message
+		if (context.globalState.get('choosenLanguages').length === 0) return vscode.window.showErrorMessage("Please choose some languages to get started")
 		const pickedLang = selectRandomElement(context.globalState.get('choosenLanguages'));
 		const panel = displayWebview(context, pickedLang)
 		panel.webview.onDidReceiveMessage((message) => {

@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.3] - 2024-01-20
+
+### Fixed
+
+- Now webview doesn't renders when choosen languages are empty and clicked on **Solve Now** button
+
 ## [1.0.2] - 2024-01-20
 
 ### Fixed
