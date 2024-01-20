@@ -62,15 +62,16 @@ function activate(context) {
 	const solveMoreCommandHandler = () => {
 		const pickedLang = selectRandomElement(context.globalState.get('choosenLanguages'));
 		const panel = displayWebview(context, pickedLang)
-		setTimeout(() => {
-			if (panel.active) {
-				panel.webview.postMessage({ lang: pickedLang });
-			} else {
-				setTimeout(() => {
-					panel.webview.postMessage({ lang: pickedLang });
-				}, 3000)
+		panel.webview.onDidReceiveMessage((message) => {
+			switch (message.command) {
+				case "loaded":
+					panel.webview.postMessage({
+						command: "langChoosen",
+						lang: pickedLang
+					})
+					break
 			}
-		}, 1000)
+		})
 	}
 	const solveMoreCommand = 'vscodeextension.solveMore';
 	context.subscriptions.push(vscode.commands.registerCommand(solveMoreCommand, solveMoreCommandHandler))
@@ -158,16 +159,25 @@ function activate(context) {
 		vscode.window.showInformationMessage(`Hey there! Are you ready for a challenge? Let's dive into some ${pickedLang} concept together!`, "Solve Now", "Later").then(async (selection) => {
 			if (selection === "Solve Now") {
 				const panel = displayWebview(context, pickedLang)
-				setTimeout(() => {
-					if (panel.active) {
-						panel.webview.postMessage({ lang: pickedLang });
-					} else {
-						setTimeout(() => {
-							panel.webview.postMessage({ lang: pickedLang });
-						}, 3000)
+				panel.webview.onDidReceiveMessage((message) => {
+					switch (message.command) {
+						case "loaded":
+							panel.webview.postMessage({
+								command: "langChoosen",
+								lang: pickedLang
+							})
+							break
 					}
-				}, 1000)
-				console.log("panel", panel)
+				})
+				// setTimeout(() => {
+				// 	if (panel.active) {
+				// 		panel.webview.postMessage({ lang: pickedLang });
+				// 	} else {
+				// 		setTimeout(() => {
+				// 			panel.webview.postMessage({ lang: pickedLang });
+				// 		}, 3000)
+				// 	}
+				// }, 1000)
 			} else {
 				vscode.window.showInformationMessage("Okay! See you later!");
 			}

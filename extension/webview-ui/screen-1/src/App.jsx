@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MCQTemplate from './components/MCQ/MCQTemplate.jsx';
 
 function App() {
@@ -7,6 +7,10 @@ function App() {
   const [isExplosion, setIsExplosion] = useState(false)
   const [isCorrect, setIsCorrect] = useState(null)
   const [btnShow, setBtnShow] = useState(true)
+  const vscode = useRef(null)
+  if (vscode.current === null) {
+    vscode.current = acquireVsCodeApi()
+  }
   const [language, setLanguage] = useState("")
 
   const handleClick = (value) => {
@@ -36,10 +40,19 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("message", (e) => {
-      console.log(e.data)
-      fetchContent(e.data)
-      setLanguage(e.data)
+      const message = e.data
+      switch (message.command) {
+        case "langChoosen":
+          console.log({ "language": message.lang })
+          fetchContent(message)
+          setLanguage(message.lang)
+          break;
+      }
+      // console.log(e.data)
+      // fetchContent(e.data)
+      // setLanguage(e.data)
     })
+    vscode?.current.postMessage({ command: "loaded" })
   }, [])
 
 
