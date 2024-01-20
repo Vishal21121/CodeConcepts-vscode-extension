@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.2] - 2024-01-20
+
+### Fixed
+
+- fixed bug in question loading in randomly asked questions.
+
 ## [1.0.1] - 2024-01-18
 
 ### Fixed

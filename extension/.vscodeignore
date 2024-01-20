@@ -9,3 +9,5 @@ vsc-extension-quickstart.md
 **/.eslintrc.json
 **/.vscode-test.*
 index.html
+webview-ui/screen-1
+webview-ui/screen-2
