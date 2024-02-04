@@ -1,5 +1,13 @@
+// @ts-check
+
 const vscode = require('vscode');
 
+/**
+ * Returns the html content for the webview
+ * @param {vscode.Uri} uri path of the css file
+ * @param {vscode.Uri} jsSrc path of the js file
+ * @returns {string} html string
+ */
 function getWebviewContent(uri, jsSrc) {
   return `<!doctype html>
   <html lang="en">
@@ -17,6 +25,13 @@ function getWebviewContent(uri, jsSrc) {
   `
 }
 
+
+/**
+ * function sets the title and finally returns the webview panel
+ * @param {vscode.ExtensionContext} context vscode extension context
+ * @param {string} title title of the webview panel
+ * @returns {vscode.WebviewPanel} returns the webview panel
+ */
 function displayUserSavedQuestionWebview(context, title) {
   console.log("displaying webview")
   const panel = vscode.window.createWebviewPanel(
