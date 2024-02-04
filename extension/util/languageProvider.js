@@ -1,11 +1,21 @@
+// @ts-check
 const vscode = require('vscode');
 
+/**
+ * This class is used to provide the choosen languages to the tree view
+ */
+
 class ChoosenLanguageProvider {
+    /**
+     * 
+     * @param {Array<string>} languages - array of choosen languages
+     */
     constructor(languages) {
         this.languages = languages;
         this._onDidChangeTreeData = new vscode.EventEmitter();
         this.onDidChangeTreeData = this._onDidChangeTreeData.event;
     }
+
 
     getTreeItem(element) {
         return element;

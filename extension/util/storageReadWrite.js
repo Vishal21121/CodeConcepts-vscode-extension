@@ -1,9 +1,24 @@
+// @ts-check
+const vscode = require('vscode');
+
+/**
+ * 
+ * @param {vscode} vscode 
+ * @param {vscode.Uri} fileUri 
+ * @returns {Promise<string>} returns the text from the file
+ */
 const reader = async (vscode, fileUri) => {
     const data = await vscode.workspace.fs.readFile(fileUri);
     const text = new TextDecoder().decode(data);
     return text
 }
 
+/**
+ * 
+ * @param {vscode} vscode 
+ * @param {vscode.ExtensionContext} context 
+ * @returns {Promise<string>} returns the text from the file
+ */
 const readFile = async (vscode, context) => {
     const globalStorageUri = context.globalStorageUri;
     const fileUri = globalStorageUri.with({ path: `${globalStorageUri.path}/userQuestions.json` });
@@ -20,6 +35,14 @@ const readFile = async (vscode, context) => {
     }
 
 }
+
+/**
+ * 
+ * @param {vscode} vscode 
+ * @param {vscode.ExtensionContext} context 
+ * @param {Array<Object>} value 
+ * @returns {Promise<void>} returns the text from the file
+ */
 
 const writeFile = async (vscode, context, value) => {
     const globalStorageUri = context.globalStorageUri;

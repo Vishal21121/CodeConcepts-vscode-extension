@@ -1,5 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 
+// @ts-check
+
 const { randomUUID } = require('crypto');
 
 // Import the module and reference it with the alias vscode in your code below
