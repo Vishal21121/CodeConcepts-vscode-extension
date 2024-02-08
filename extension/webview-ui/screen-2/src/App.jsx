@@ -6,6 +6,14 @@ import { useRef } from "react";
 
 function App() {
   const vscode = useRef(null)
+  const [updateMode, setUpdateMode] = useState(false)
+  const [data, setData] = useState({
+    id: "",
+    question: "",
+    answer: "",
+    language: ""
+  })
+
   if (vscode.current === null) {
     vscode.current = acquireVsCodeApi()
   }
@@ -25,12 +33,12 @@ function App() {
       command: "loaded",
       message: "webview loaded"
     })
-  }, [renderScreen])
+  }, [])
 
   return (
     <div className="h-full">
       {
-        renderScreen && renderScreen === "questionForm" ? <QuestionForm vscode={vscode?.current} /> : <QuestionDisplay vscode={vscode?.current} />
+        renderScreen && renderScreen === "questionForm" ? <QuestionForm vscode={vscode?.current} updateMode={updateMode} data={data} setData={setData} /> : <QuestionDisplay vscode={vscode?.current} setFormData={setData} setUpdateMode={setUpdateMode} setRenderScreen={setRenderScreen} />
       }
     </div>
   )

@@ -7,7 +7,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
 
-const QuestionDisplay = ({ vscode }) => {
+const QuestionDisplay = ({ vscode, setFormData, setUpdateMode, setRenderScreen }) => {
     const [data, setData] = useState([])
     useEffect(() => {
         vscode.postMessage({
@@ -32,6 +32,13 @@ const QuestionDisplay = ({ vscode }) => {
         })
     }
 
+    const editButtonHandler = (id, question, answer, language) => {
+        console.log(id, question, answer, language)
+        setFormData({ id, question, answer, language })
+        setUpdateMode(true)
+        setRenderScreen("questionForm")
+    }
+
     return (
         <div className='w-full'>
             <div className='flex flex-col gap-2'>
@@ -41,7 +48,7 @@ const QuestionDisplay = ({ vscode }) => {
                             <div key={id} className='w-full flex flex-col items-end'>
                                 <div className='flex'>
                                     <VSCodeButton appearance='icon'>
-                                        <FaRegEdit />
+                                        <FaRegEdit onClick={() => editButtonHandler(id, question, answer, language)} />
                                     </VSCodeButton>
                                     <VSCodeButton appearance='icon' onClick={() => deleteButtonHandler(id)}>
                                         <MdDelete />
