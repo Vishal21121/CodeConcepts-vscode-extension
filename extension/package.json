@@ -53,6 +53,10 @@
       {
         "view": "userQuestions",
         "contents": "You can add your own questions?\n[Add Now](command:vscodeextension.addQuestions)\n[View Questions](command:vscodeextension.viewQuestions)"
+      },
+      {
+        "view": "blogs",
+        "contents": "Explore Tech blogs\n[Explore Blogs](command:vscodeextension.viewBlog)"
       }
     ],
     "viewsContainers": {
@@ -81,6 +85,10 @@
         {
           "id": "userQuestions",
           "name": "Questions"
+        },
+        {
+          "id": "blogs",
+          "name": "Blog"
         }
       ]
     },
