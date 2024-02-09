@@ -43,10 +43,10 @@ function displayUserSavedQuestionWebview(context, title) {
       retainContextWhenHidden: true,
     }
   );
-  const cssPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/build-2/dist/assets/index.css')
+  const cssPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-2/dist/assets/index.css')
   const cssSrc = panel.webview.asWebviewUri(cssPath);
 
-  const jsPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/build-2/dist/assets/index.js')
+  const jsPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-2/dist/assets/index.js')
   const jsSrc = panel.webview.asWebviewUri(jsPath);
   panel.webview.html = getWebviewContent(cssSrc, jsSrc);
   return panel

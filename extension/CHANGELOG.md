@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.1.0] - 2024-02-09
+
+### Added
+
+- Users can update the saved questions
+- Users can delete the saved questions
+
 ## [1.0.3] - 2024-01-20
 
 ### Fixed
