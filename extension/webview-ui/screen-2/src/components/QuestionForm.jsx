@@ -2,6 +2,7 @@ import React from 'react'
 import { VSCodeButton, VSCodeTextArea, VSCodeTextField } from '@vscode/webview-ui-toolkit/react';
 
 const QuestionForm = ({ vscode, data, setData, updateMode }) => {
+
     const handleClick = () => {
         if (updateMode) {
             console.log(data.id, data.question, data.answer, data.language)
@@ -10,7 +11,8 @@ const QuestionForm = ({ vscode, data, setData, updateMode }) => {
                 data: {
                     language: data.language,
                     question: data.question,
-                    answer: data.answer
+                    answer: data.answer,
+                    id: data.id
                 }
             })
         }

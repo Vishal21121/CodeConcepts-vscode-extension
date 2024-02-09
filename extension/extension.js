@@ -135,6 +135,38 @@ function activate(context) {
 								})
 							})
 							break;
+						case "deleteQuestion":
+							readFile(vscode, context).then((value) => {
+								let arr = JSON.parse(value).filter((el) => el.id != message.data);
+								writeFile(vscode, context, arr).then(() => {
+									vscode.window.showInformationMessage(
+										"Question deleted successfully!"
+									);
+									panel.webview.postMessage({
+										command: "getQuestions",
+										data: arr,
+									});
+								});
+							})
+							break;
+						case "update question":
+							panel.title = "Update Question"
+							readFile(vscode, context).then((value) => {
+								let valueParsed = JSON.parse(value);
+								let elementIndex = valueParsed.findIndex((el) => el.id == message.data.id);
+								valueParsed[elementIndex] = message.data;
+								writeFile(vscode, context, valueParsed).then(() => {
+									vscode.window.showInformationMessage(
+										"Question updated successfully!"
+									);
+									panel.webview.postMessage({
+										command: "upadateQuestion",
+										data: valueParsed,
+									})
+									panel.title = "Saved Questions"
+								});
+							})
+
 					}
 				})
 			}

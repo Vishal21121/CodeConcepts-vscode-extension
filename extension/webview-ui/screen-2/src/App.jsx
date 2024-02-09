@@ -13,6 +13,7 @@ function App() {
     answer: "",
     language: ""
   })
+  const [questions, setQuestions] = useState([])
 
   if (vscode.current === null) {
     vscode.current = acquireVsCodeApi()
@@ -27,18 +28,29 @@ function App() {
           setRenderScreen(message.data)
           console.log(message.data)
           break;
+        case "getQuestions":
+          setQuestions(message.data)
+          break;
+        case "upadateQuestion":
+          setQuestions(message.data)
+          setRenderScreen("questionDisplay")
+          break;
       }
     })
     vscode?.current.postMessage({
       command: "loaded",
       message: "webview loaded"
     })
+    vscode?.current.postMessage({
+      command: "getQuestions",
+      message: "want questions"
+    })
   }, [])
 
   return (
     <div className="h-full">
       {
-        renderScreen && renderScreen === "questionForm" ? <QuestionForm vscode={vscode?.current} updateMode={updateMode} data={data} setData={setData} /> : <QuestionDisplay vscode={vscode?.current} setFormData={setData} setUpdateMode={setUpdateMode} setRenderScreen={setRenderScreen} />
+        renderScreen && renderScreen === "questionForm" ? <QuestionForm vscode={vscode?.current} updateMode={updateMode} data={data} setData={setData} /> : <QuestionDisplay vscode={vscode?.current} setFormData={setData} setUpdateMode={setUpdateMode} setRenderScreen={setRenderScreen} data={questions} />
       }
     </div>
   )
