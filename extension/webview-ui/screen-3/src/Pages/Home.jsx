@@ -9,9 +9,9 @@ const Home = () => {
     if (vscode.current === null) {
         vscode.current = acquireVsCodeApi()
     }
-    const fetchArticles = async () => {
+    const fetchArticles = async (languagesJoined) => {
         try {
-            const response = await fetch("https://dev.to/api/articles")
+            const response = await fetch(`https://dev.to/api/articles?per_page=50&tags=${languagesJoined}&state=fresh`)
             const data = await response.json()
             console.log(data)
             setData(data)
@@ -21,7 +21,20 @@ const Home = () => {
     }
 
     useEffect(() => {
-        fetchArticles()
+        window.addEventListener('message', event => {
+            const message = event.data
+            switch (message.command) {
+                case 'choosenLanguage':
+                    let arr = message.data
+                    let languagesJoined = ""
+                    arr.forEach((el) => {
+                        languagesJoined += el.toLowerCase() + ", "
+                    })
+                    fetchArticles(languagesJoined)
+                    break
+            }
+        })
+        vscode?.current.postMessage({ command: 'ready' })
     }, [])
 
     return (

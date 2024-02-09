@@ -23,18 +23,21 @@ const Card = ({ title, url, cover_image, tag_list, user, vscode }) => {
             <div className="w-full p-4">
                 <div className='flex w-full justify-between'>
                     <h2 onClick={() => clickHandler(url)} className="text-2xl font-bold mt-2 w-[90%] truncate">{title}</h2>
-                    <details className="dropdown">
-                        <summary className="m-1 btn">Tags</summary>
-                        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-                            {
-                                tag_list && tag_list.map((el) => (
-                                    <li><a>{el}</a></li>
-                                ))
-                            }
-                        </ul>
-                    </details>
+                    {
+                        tag_list.length > 0 ? < details className="dropdown">
+                            <summary className="m-1 btn">Tags</summary>
+                            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52 border">
+                                {
+                                    tag_list.length > 0 && tag_list.map((el) => (
+                                        <li><a>{el}</a></li>
+                                    ))
+                                }
+                            </ul>
+                        </details> : ""
+                    }
+
                 </div>
-                <div className='flex gap-4'>
+                <div className='flex gap-4 mt-2'>
                     <div className="avatar flex gap-4 items-center">
                         <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                             <img src={user?.profile_image} />
@@ -43,7 +46,7 @@ const Card = ({ title, url, cover_image, tag_list, user, vscode }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

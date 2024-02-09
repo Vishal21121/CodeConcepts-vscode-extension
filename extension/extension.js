@@ -196,6 +196,13 @@ function activate(context) {
 					} catch (error) {
 						console.log(error)
 					}
+					break;
+				case "ready":
+					panel.webview.postMessage({
+						command: "choosenLanguage",
+						data: context.globalState.get('choosenLanguages')
+					})
+					break;
 			}
 		})
 	}
