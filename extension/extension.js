@@ -11,6 +11,7 @@ const { ChoosenLanguageProvider, AvailableLanguageProvider } = require('./util/l
 const selectRandomElement = require('./util/randomLangPicker');
 const { displayUserSavedQuestionWebview } = require('./components/webview/userSavedQuestionDisplay')
 const { readFile, writeFile } = require('./util/storageReadWrite')
+const { displayblogsWebview } = require('./components/webview/displayBlog')
 
 
 /**
@@ -182,6 +183,24 @@ function activate(context) {
 	// picking a random language from the choosenLanguages
 	const pickedLang = selectRandomElement(context.globalState.get('choosenLanguages'));
 	context.globalState.update('pickedLang', pickedLang);
+
+	//* BLOG SECTION 
+
+	const viewBlogCommandHandler = () => {
+		const panel = displayblogsWebview(context, "Blogs", null)
+		panel.webview.onDidReceiveMessage(async (message) => {
+			switch (message.command) {
+				case "openLink":
+					try {
+						const panel = displayblogsWebview(context, message.data.title, message.data.data)
+					} catch (error) {
+						console.log(error)
+					}
+			}
+		})
+	}
+	const viewBlogCommand = 'vscodeextension.viewBlog';
+	context.subscriptions.push(vscode.commands.registerCommand(viewBlogCommand, viewBlogCommandHandler))
 
 
 	// The command has been defined in the package.json file
