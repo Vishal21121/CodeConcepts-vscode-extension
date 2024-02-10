@@ -9,9 +9,9 @@ const Home = () => {
     if (vscode.current === null) {
         vscode.current = acquireVsCodeApi()
     }
-    const fetchArticles = async (languagesJoined) => {
+    const fetchArticles = async (languagesJoined, state) => {
         try {
-            const response = await fetch(`https://dev.to/api/articles?per_page=50&tags=${languagesJoined}&state=fresh`)
+            const response = await fetch(`https://dev.to/api/articles?per_page=50&tags=${languagesJoined}&state=${state}`)
             const data = await response.json()
             console.log(data)
             setData(data)
@@ -30,7 +30,9 @@ const Home = () => {
                     arr.forEach((el) => {
                         languagesJoined += el.toLowerCase() + ", "
                     })
-                    fetchArticles(languagesJoined)
+                    let state = ["fresh", "rising", ""]
+                    let randomELement = state[Math.floor(Math.random() * state.length)]
+                    fetchArticles(languagesJoined, randomELement)
                     break
             }
         })

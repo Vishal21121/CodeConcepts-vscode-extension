@@ -9,7 +9,7 @@ const vscode = require('vscode');
  * @returns {string} html string
  */
 function getWebviewContent(uri, jsSrc) {
-    return `<!doctype html>
+  return `<!doctype html>
   <html lang="en">
     <head>
       <meta charset="UTF-8" />
@@ -34,32 +34,32 @@ function getWebviewContent(uri, jsSrc) {
  * @returns {vscode.WebviewPanel} returns the webview panel
  */
 function displayblogsWebview(context, title, data) {
-    console.log("displaying webview")
-    const panel = vscode.window.createWebviewPanel(
-        'blog',
-        title,
-        vscode.ViewColumn.One,
-        {
-            enableScripts: true,
-            retainContextWhenHidden: true,
-        }
-    );
-    if (data) {
-        panel.webview.html = data
-        return panel
+  console.log("displaying webview")
+  const panel = vscode.window.createWebviewPanel(
+    'blog',
+    title,
+    vscode.ViewColumn.One,
+    {
+      enableScripts: true,
+      retainContextWhenHidden: true,
     }
-    const cssPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-3/dist/assets/index.css')
-    const cssSrc = panel.webview.asWebviewUri(cssPath);
-
-    const jsPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-3/dist/assets/index.js')
-    const jsSrc = panel.webview.asWebviewUri(jsPath);
-    panel.webview.html = getWebviewContent(cssSrc, jsSrc);
+  );
+  if (data) {
+    panel.webview.html = data
     return panel
+  }
+  const cssPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-3/dist/assets/index.css')
+  const cssSrc = panel.webview.asWebviewUri(cssPath);
+
+  const jsPath = vscode.Uri.joinPath(context.extensionUri, 'webview-ui/screen-3/dist/assets/index.js')
+  const jsSrc = panel.webview.asWebviewUri(jsPath);
+  panel.webview.html = getWebviewContent(cssSrc, jsSrc);
+  return panel
 }
 
 
 
 
 module.exports = {
-    displayblogsWebview,
+  displayblogsWebview,
 }

@@ -28,8 +28,8 @@ const Card = ({ title, url, cover_image, tag_list, user, vscode }) => {
                             <summary className="m-1 btn">Tags</summary>
                             <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52 border">
                                 {
-                                    tag_list.length > 0 && tag_list.map((el) => (
-                                        <li><a>{el}</a></li>
+                                    tag_list.length > 0 && tag_list.map((el, index) => (
+                                        <li key={index}><a>{el}</a></li>
                                     ))
                                 }
                             </ul>

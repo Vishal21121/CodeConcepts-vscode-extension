@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.2.0] - 2024-02-10
+
+### Added
+
+- Users can read blogs
+
 ## [1.1.0] - 2024-02-09
 
 ### Added
