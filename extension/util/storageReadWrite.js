@@ -17,18 +17,19 @@ const reader = async (vscode, fileUri) => {
  * 
  * @param {vscode} vscode 
  * @param {vscode.ExtensionContext} context 
+ * @param {string} filename 
  * @returns {Promise<string>} returns the text from the file
  */
-const readFile = async (vscode, context) => {
+const readFile = async (vscode, context, filename) => {
     const globalStorageUri = context.globalStorageUri;
-    const fileUri = globalStorageUri.with({ path: `${globalStorageUri.path}/userQuestions.json` });
+    const fileUri = globalStorageUri.with({ path: `${globalStorageUri.path}/${filename}` });
     try {
         await vscode.workspace.fs.stat(fileUri);
         const text = await reader(vscode, fileUri)
         return text
     } catch (error) {
         if (error.code === 'FileNotFound') {
-            await writeFile(vscode, context, [])
+            await writeFile(vscode, context, [], filename)
             const text = reader(vscode, fileUri)
             return text
         }
@@ -44,9 +45,9 @@ const readFile = async (vscode, context) => {
  * @returns {Promise<void>} returns the text from the file
  */
 
-const writeFile = async (vscode, context, value) => {
+const writeFile = async (vscode, context, value, filename) => {
     const globalStorageUri = context.globalStorageUri;
-    const fileUri = globalStorageUri.with({ path: `${globalStorageUri.path}/userQuestions.json` });
+    const fileUri = globalStorageUri.with({ path: `${globalStorageUri.path}/${filename}` });
     const data = Buffer.from(JSON.stringify(value), 'utf-8');
     await vscode.workspace.fs.writeFile(fileUri, data);
 }
