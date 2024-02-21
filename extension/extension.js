@@ -107,6 +107,7 @@ function activate(context) {
 							}
 						})
 					}
+					break;
 			}
 		})
 	}

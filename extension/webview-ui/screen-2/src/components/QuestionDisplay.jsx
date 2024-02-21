@@ -5,12 +5,15 @@ import { useState } from 'react'
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { useVscodeApiContext } from '../context/VscodeApiContext.jsx';
 
 
-const QuestionDisplay = ({ vscode, setFormData, setUpdateMode, setRenderScreen, data }) => {
+const QuestionDisplay = ({ setFormData, setUpdateMode, setRenderScreen }) => {
+    const { vscode, questions, setQuestions } = useVscodeApiContext()
+
     const deleteButtonHandler = (id) => {
         // console.log("id: ", id)
-        vscode.postMessage({
+        vscode?.postMessage({
             command: "deleteQuestion",
             data: id
         })
@@ -23,11 +26,29 @@ const QuestionDisplay = ({ vscode, setFormData, setUpdateMode, setRenderScreen, 
         setRenderScreen("questionForm")
     }
 
+    useEffect(() => {
+        window.addEventListener("message", (event) => {
+            const message = event.data
+            switch (message.command) {
+                case "getQuestions":
+                    setQuestions(message.data)
+                    break;
+            }
+        })
+        if (vscode) {
+            console.log("vscode", vscode)
+            vscode?.postMessage({
+                command: "getQuestions",
+                message: "want questions"
+            })
+        }
+    }, [])
+
     return (
         <div className='w-full'>
             <div className='flex flex-col gap-2'>
                 {
-                    data.length ? data.map(({ question, answer, id, language }) => {
+                    questions.length ? questions.map(({ question, answer, id, language }) => {
                         return (
                             <div key={id} className='w-full flex flex-col items-end'>
                                 <div className='flex'>

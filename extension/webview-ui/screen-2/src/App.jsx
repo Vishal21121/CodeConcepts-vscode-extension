@@ -3,9 +3,10 @@ import QuestionForm from "./components/QuestionForm.jsx"
 import { useState } from "react";
 import QuestionDisplay from "./components/QuestionDisplay.jsx";
 import { useRef } from "react";
+import { useVscodeApiContext } from "./context/VscodeApiContext.jsx";
 
 function App() {
-  const vscode = useRef(null)
+  const { vscode, setQuestions } = useVscodeApiContext()
   const [updateMode, setUpdateMode] = useState(false)
   const [data, setData] = useState({
     id: "",
@@ -13,11 +14,6 @@ function App() {
     answer: "",
     language: ""
   })
-  const [questions, setQuestions] = useState([])
-
-  if (vscode.current === null) {
-    vscode.current = acquireVsCodeApi()
-  }
   const [renderScreen, setRenderScreen] = useState(null)
 
   useEffect(() => {
@@ -28,29 +24,22 @@ function App() {
           setRenderScreen(message.data)
           console.log(message.data)
           break;
-        case "getQuestions":
-          setQuestions(message.data)
-          break;
         case "upadateQuestion":
           setQuestions(message.data)
           setRenderScreen("questionDisplay")
           break;
       }
     })
-    vscode?.current.postMessage({
+    vscode.postMessage({
       command: "loaded",
       message: "webview loaded"
-    })
-    vscode?.current.postMessage({
-      command: "getQuestions",
-      message: "want questions"
     })
   }, [])
 
   return (
     <div className="h-full">
       {
-        renderScreen && renderScreen === "questionForm" ? <QuestionForm vscode={vscode?.current} updateMode={updateMode} data={data} setData={setData} /> : <QuestionDisplay vscode={vscode?.current} setFormData={setData} setUpdateMode={setUpdateMode} setRenderScreen={setRenderScreen} data={questions} />
+        renderScreen && vscode && renderScreen === "questionForm" ? <QuestionForm updateMode={updateMode} data={data} setData={setData} /> : <QuestionDisplay setFormData={setData} setUpdateMode={setUpdateMode} setRenderScreen={setRenderScreen} />
       }
     </div>
   )

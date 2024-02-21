@@ -1,7 +1,10 @@
 import React from 'react'
 import { VSCodeButton, VSCodeTextArea, VSCodeTextField } from '@vscode/webview-ui-toolkit/react';
+import { useVscodeApiContext } from '../context/VscodeApiContext.jsx';
 
-const QuestionForm = ({ vscode, data, setData, updateMode }) => {
+const QuestionForm = ({ data, setData, updateMode }) => {
+
+    const { vscode } = useVscodeApiContext()
 
     const handleClick = () => {
         if (updateMode) {
