@@ -2,7 +2,7 @@
   "name": "conceptreviser",
   "displayName": "Concept Reviser",
   "description": "Revise programming concepts without much efforts",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "publisher": "VishalSingh",
   "icon": "assets/CR.png",
   "engines": {

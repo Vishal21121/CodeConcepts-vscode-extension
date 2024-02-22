@@ -26,7 +26,6 @@ function App() {
   };
 
   const fetchContent = async (language) => {
-    console.log("called", language);
     try {
       const response = await fetch(
         `${import.meta.env.VITE_URL}questions?language=${language.lang}`
@@ -48,7 +47,6 @@ function App() {
       const message = e.data;
       switch (message.command) {
         case "langChoosen":
-          console.log({ language: message.lang });
           fetchContent(message);
           setLanguage(message.lang);
           break;

@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.2.1] - 2024-02-22
+
+## Fixed
+
+- Bug in rendering question from server.
+
 ## [1.2.0] - 2024-02-10
 
 ### Added

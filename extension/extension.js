@@ -118,9 +118,7 @@ function activate(context) {
 				case "server question":
 					readFile(vscode, context, "serverQuestion.json").then((value) => {
 						let arr = JSON.parse(value);
-						console.log("arr", typeof arr);
 						if (arr.length > 0) {
-							console.log("Entered if");
 							let index = arr.findIndex((el) => el._id == message.data._id);
 							if (index == -1) {
 								writeFile(vscode, context, [...arr, message.data], "serverQuestion.json");
@@ -341,6 +339,28 @@ function activate(context) {
 									lang: pickedLang,
 								});
 								break;
+							case "server question":
+								readFile(vscode, context, "serverQuestion.json").then((value) => {
+									let arr = JSON.parse(value);
+									if (arr.length > 0) {
+										let index = arr.findIndex((el) => el._id == message.data._id);
+										if (index == -1) {
+											writeFile(vscode, context, [...arr, message.data], "serverQuestion.json");
+										}
+									} else {
+										writeFile(vscode, context, [message.data], "serverQuestion.json");
+									}
+								});
+								break;
+							case "questionLoadError":
+								readFile(vscode, context, "serverQuestion.json").then((value) => {
+									let arr = JSON.parse(value);
+									let randomIndex = Math.floor(Math.random() * arr.length);
+									panel.webview.postMessage({
+										command: "reload",
+										data: arr[randomIndex]
+									})
+								});
 						}
 					});
 					// setTimeout(() => {
